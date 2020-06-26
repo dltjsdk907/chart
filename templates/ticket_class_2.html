@@ -1,0 +1,54 @@
+<!--templates/ticket_class_2.html-->
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Django Highcharts Example</title>
+</head>
+<body>
+    <a href="{% url 'home' %}">Return to homepage</a>
+    <div id="container"></div>
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    <script>
+    Highcharts.chart('container', {
+        chart: {
+            type: 'column'
+        },
+        title: {
+            text: 'Titanic Survivors by Ticket Class'
+        },
+        xAxis: {
+            categories: {{ categories|safe }}  /* safe 필터 */
+        },"yAxis": [
+            {"labels": {"format": "{value} %",
+                "style": {"color": "blue"}},
+                "title": {"text": "생존률",
+                "style": {"color": "blue"}}},
+            {"labels": {"format": "{value} 명",
+                "style": {"color": "black"}},
+                "title": {"text": "인원",
+                "style": {"color": "black"}},
+                "opposite": "true"}
+            ],
+
+        series: [{
+            name: 'Survived',
+            data: {{ survived_series }},
+            color: 'green',
+            yAxis: 1
+        }, {
+            name: 'Not survived',
+            data: {{ not_survived_series }},
+            color: 'red',
+            yAxis: 1
+        },{
+            name: 'survive_rate',
+            data: {{ survive_rate }},
+            color: 'blue',
+            type : 'spline',
+        }]
+    });
+    </script>
+
+</body>
+</html>
